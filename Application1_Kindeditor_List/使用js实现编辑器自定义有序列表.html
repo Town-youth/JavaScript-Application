@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>kindeditor</title>
+		<meta charset="UTF-8"/>
+		<style>
+			/*重置*/
+			*{
+				margin: 0;
+				padding: 0
+			}
+			html{
+				font-size: 10px;
+			}
+			.wrap{
+				width: 400px;
+				height:  300px;
+				border: 1px solid silver;
+				margin: 5rem auto;
+			}
+			#textarea{
+				margin-top: 2rem;
+				width: 100%;
+				height: 20rem;
+				border: 1px dashed silver;
+				/*overflow: ;*/
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<input type="number" placeholder="请输入序号开始的数字" id="getNum"/>
+			<button id="btn">有序列表</button>
+			<div id="textarea" contenteditable="true">
+				
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var btn = document.getElementById("btn");
+		var getNum = document.getElementById("getNum");
+		
+		var textBox = document.getElementById("textarea");
+		//获取键盘事件
+		var newNum = 0;
+		var num = 0;
+		var part = "";
+		//点击事件
+		btn.onclick = function(){
+			newNum = getNum.value;
+			num++;
+			if(num ==1){
+				var aLi = document.createElement("div");
+				aLi.setAttribute("class","divS");
+				var aSpan = document.createElement("span");
+				part = textBox.innerHTML;
+				textBox.innerHTML = "";
+				aSpan.innerHTML = newNum+"."+part;
+				newNum++;
+				aLi.appendChild(aSpan);
+				textBox.appendChild(aLi);
+			}else{
+				var ports;
+				var divArr = document.getElementsByClassName("divS");
+				var spanArr = document.getElementsByTagName("span");
+				ports = "";
+				for(var i = 0; i < divArr.length; i++){
+					//console.log(num,i,divArr[i]);
+					ports += spanArr[i].innerHTML.split("").slice("2").join("");
+				}
+				textBox.innerHTML = ports;
+				num = 0;
+				newNum = getNum.value;
+			}
+			return num;
+			return newNum;
+		}
+		//键盘事件
+		textBox.onkeydown = function(event){ 
+    		if(event.keyCode == 13 && num>=1){
+    			event.preventDefault();
+        		num++;
+				var aLi = document.createElement("div");
+				aLi.setAttribute("class","divS");
+				var aSpan = document.createElement("span");
+				aSpan.innerHTML = newNum+".";
+				newNum++;
+				aLi.appendChild(aSpan);
+				textBox.appendChild(aLi);
+	    		return num;
+    		}
+		};
+	</script>
+</html>
